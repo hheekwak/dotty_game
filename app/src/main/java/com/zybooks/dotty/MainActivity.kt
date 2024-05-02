@@ -18,6 +18,7 @@ import java.util.Locale
 class MainActivity : AppCompatActivity() {
 
     private var mediaPlayer: MediaPlayer? = null
+    private lateinit var soundEffects: SoundEffects
     private val dotsGame = DotsGame.getInstance()
     private lateinit var photoImageView: ImageView
     private lateinit var dotsView: DotsView
@@ -55,7 +56,15 @@ class MainActivity : AppCompatActivity() {
 
         dotsView.setGridListener(gridListener)
 
+        soundEffects = SoundEffects.getInstance(applicationContext)
+
         startNewGame()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        soundEffects.release()
+
     }
 
     private val gridListener = object : DotsGridListener {
@@ -63,8 +72,21 @@ class MainActivity : AppCompatActivity() {
             // Ignore selections when game is over
             if (dotsGame.isGameOver) return
 
+            // Play first tone when first dot is selected
+            if (status == DotSelectionStatus.First) {
+                soundEffects.resetTones()
+
+            }
+
             // Add/remove dot to/from selected dots
             val addStatus = dotsGame.processDot(dot)
+            if (addStatus == DotStatus.Added) {
+                soundEffects.playTone(true)
+
+            } else if (addStatus == DotStatus.Removed) {
+                soundEffects.playTone(false)
+
+            }
 
             // If done selecting dots then replace selected dots and display new moves and score
             if (status === DotSelectionStatus.Last) {
@@ -86,6 +108,11 @@ class MainActivity : AppCompatActivity() {
             dotsGame.finishMove()
             dotsView.invalidate()
             updateMovesAndScore()
+
+            if (dotsGame.isGameOver) {
+                soundEffects.playGameOver()
+
+            }
         }
     }
 
