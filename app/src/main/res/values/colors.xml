@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="charcoal">#2D2828</color>
+    <color name="black">#000000</color>
+    <color name="light_gray">#CDCDC8</color>
+
+    <array name="dotColors">
+        <item>#D41736</item>
+        <item>#A6192E</item>
+        <item>#00A39D</item>
+        <item>#008080</item>
+        <item>#CDCDC8</item>
+    </array>
+</resources>
