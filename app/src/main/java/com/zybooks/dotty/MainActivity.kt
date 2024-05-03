@@ -28,9 +28,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        mediaPlayer = MediaPlayer.create(this, R.raw.piano_inst_yooheeyull_dacapo)
-        mediaPlayer?.start()
-
         setContentView(R.layout.activity_main)
 
         // Initialize photoImageView
@@ -141,6 +138,10 @@ class MainActivity : AppCompatActivity() {
         dotsGame.newGame()
         dotsView.invalidate()
         updateMovesAndScore()
+
+        mediaPlayer?.stop()
+        mediaPlayer = MediaPlayer.create(this, R.raw.piano_inst_yooheeyull_dacapo)
+        mediaPlayer?.start()
     }
 
     private fun updateMovesAndScore() {
